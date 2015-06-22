@@ -1,1 +1,11 @@
-What's your name?
+<div>
+  <form action="/start">
+    <% if @name %>
+      Hello <%= @name %>, welcome to BattleshipsWeb
+    <% else %>
+      What's your name?
+      <input type="text" name="name">
+      <input type="submit" value="Submit">
+    <% end %>
+  </form>
+</div>

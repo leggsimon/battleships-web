@@ -6,4 +6,11 @@ feature 'Starting a new game' do
     click_link 'New Game'
     expect(page).to have_content "What's your name?"
   end
+
+  scenario 'I can enter my name' do
+    visit '/start'
+    fill_in('name',with: 'Player')
+    click_button('Submit')
+    expect(page).to have_content 'Hello Player, welcome to BattleshipsWeb'
+  end
 end

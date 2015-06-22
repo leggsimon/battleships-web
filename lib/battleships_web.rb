@@ -6,6 +6,7 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   get '/start' do
+    @name = params[:name]
   	erb :start
   end
 
