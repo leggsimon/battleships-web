@@ -1,6 +1,6 @@
 <div>
   <form action="/start">
-    <% if @name %>
+    <% if @name!="" && @name %>
       Hello <%= @name %>, welcome to BattleshipsWeb
     <% else %>
       What's your name?

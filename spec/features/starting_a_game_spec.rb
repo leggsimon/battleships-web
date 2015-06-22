@@ -13,4 +13,11 @@ feature 'Starting a new game' do
     click_button('Submit')
     expect(page).to have_content 'Hello Player, welcome to BattleshipsWeb'
   end
+
+
+  scenario 'cannot leave field blank' do
+    visit '/start'
+    click_button('Submit')
+    expect(page).to have_content "What's your name?"
+  end
 end
