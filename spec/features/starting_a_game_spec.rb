@@ -5,7 +5,8 @@ feature 'Starting a new game' do
   scenario 'Starting a new game' do
     visit '/'
     click_link 'New Game'
-    expect(page.to have_content "What's your name?")
+    expect(page).to have_content "What's your name?"
+    fill_in('Name', with: 'John')
   end
 
 end
