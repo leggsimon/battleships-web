@@ -7,10 +7,16 @@ class BattleshipsWeb < Sinatra::Base
 
   set :views, proc {File.join(root,'..','views')}
 
-  get '/new_game' do
-    @player_name = params[:name]
-    erb :new_game
+  get '/name' do
+    erb :name
   end
+
+  get '/welcome' do
+    @player_name = params[:name]
+    erb :welcome
+  end
+
+
 
 
 
