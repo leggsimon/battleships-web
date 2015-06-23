@@ -20,7 +20,13 @@ class BattleshipsWeb < Sinatra::Base
   get '/fire' do
     coordinate = params[:coordinate]
     @state = $game.player_1.shoot coordinate.to_sym
-    erb :fire
+
+    if $game.has_winner?
+      check_winner
+      erb :winner
+    else
+      erb :fire
+    end
   end
 
   # start the server if ruby file executed directly
@@ -34,5 +40,11 @@ class BattleshipsWeb < Sinatra::Base
     game.player_2.place_ship Ship.battleship, :A4
     game.player_2.place_ship Ship.destroyer, :E8
     game.player_2.place_ship Ship.aircraft_carrier, :J3 , :vertically
+  end
+
+  def check_winner
+    if $game.player_1.winner?
+      @winner = "YOU WIN!"
+    end
   end
 end
