@@ -26,4 +26,9 @@ feature 'Starting a new game' do
     click_button('Go')
     expect(page).to have_content "Please enter coordinate"
   end
+
+  scenario 'I can enter a coordinate' do
+    visit '/game'
+    fill_in('coordinate', with: 'C5')
+  end
 end
