@@ -42,6 +42,8 @@ feature 'Starting a new game' do
       click_button('Fire!')
       expect(page).to have_content 'Enter next Fire coordinate'
     end
+
+    # ask about winning test
   end
 
 
