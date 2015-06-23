@@ -20,4 +20,10 @@ feature 'Starting a new game' do
     click_button('Submit')
     expect(page).to have_content "What's your name?"
   end
+
+  scenario 'I can start by clicking go' do
+    visit '/start?name=Faisal'
+    click_button('Go')
+    expect(page).to have_content "Please enter coordinate"
+  end
 end
