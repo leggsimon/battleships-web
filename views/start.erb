@@ -1,8 +1,11 @@
 <div>
-  <form action="/start">
     <% if @name!="" && @name %>
       Hello <%= @name %>, welcome to BattleshipsWeb
+      <form action="/game">
+        <input type="submit" value="Go!">
+      </form>
     <% else %>
+    <form action="/start">
       What's your name?
       <input type="text" name="name">
       <input type="submit" value="Submit">
