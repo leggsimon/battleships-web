@@ -21,14 +21,28 @@ feature 'Starting a new game' do
     expect(page).to have_content "What's your name?"
   end
 
-  scenario 'I can start by clicking go' do
-    visit '/start?name=Faisal'
-    click_button('Go')
-    expect(page).to have_content "Please enter coordinate"
+  context 'game on' do
+    before(:each) do
+      visit '/start?name=Faisal'
+      click_button('Go')
+    end
+
+    scenario 'I can start by clicking go' do
+      expect(page).to have_content "Please enter coordinate"
+    end
+
+    scenario 'I can fire at a ship' do
+      fill_in('coordinate', with: 'G6')
+      click_button('Fire!')
+      expect(page).to have_content 'hit'
+    end
+
+    scenario 'I can fire more than once' do
+      fill_in('coordinate', with: 'G6')
+      click_button('Fire!')
+      expect(page).to have_content 'Enter next Fire coordinate'
+    end
   end
 
-  scenario 'I can enter a coordinate' do
-    visit '/game'
-    fill_in('coordinate', with: 'C5')
-  end
+
 end
