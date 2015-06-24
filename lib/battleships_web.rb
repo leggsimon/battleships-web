@@ -1,7 +1,10 @@
 require 'sinatra/base'
 require 'battleships'
+require_relative 'ship'
 
 class BattleshipsWeb < Sinatra::Base
+  enable :sessions
+
   get '/' do
     erb :index
   end
@@ -15,7 +18,13 @@ class BattleshipsWeb < Sinatra::Base
   post '/welcome' do
     if params[:name] != ''
       @player_name = params[:name]
-      $game = Game.new Player, Board
+      session['player_name'] = @player_name
+      if !$game
+        $game = Game.new Player, Board
+        session['player'] = $game.player_1
+      else
+        session['player'] = $game.player_2
+      end
       erb :welcome
     else
       redirect '/name'
@@ -30,13 +39,7 @@ class BattleshipsWeb < Sinatra::Base
     @coordinates = params[:Coordinates]
     @shiptype    = params[:shipTypes]
     @orientation = params[:orientation]
-    ships_hash = {'destroyer' => Ship.destroyer,
-                  'battleship' => Ship.battleship,
-                  'aircraft_carrier' => Ship.aircraft_carrier,
-                  'submarine' => Ship.submarine,
-                  'cruiser' => Ship.cruiser}
-
-    $game.player_1.place_ship ships_hash[@shiptype], @coordinates.to_sym, @orientation.to_sym
+    session['player'].place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
 
     erb :game
   end
