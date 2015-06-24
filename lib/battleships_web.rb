@@ -30,9 +30,13 @@ class BattleshipsWeb < Sinatra::Base
     @coordinates = params[:Coordinates]
     @shiptype    = params[:shipTypes]
     @orientation = params[:orientation]
-    # ships_hash = {destoyer => Ship.destoyer}
+    ships_hash = {'destroyer' => Ship.destroyer,
+                  'battleship' => Ship.battleship,
+                  'aircraft_carrier' => Ship.aircraft_carrier,
+                  'submarine' => Ship.submarine,
+                  'cruiser' => Ship.cruiser}
 
-    $game.player_1.place_ship Ship.battleship, :B4, :vertically
+    $game.player_1.place_ship ships_hash[@shiptype], @coordinates.to_sym, @orientation.to_sym
 
     erb :game
   end
