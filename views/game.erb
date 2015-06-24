@@ -1,4 +1,4 @@
-<pre><%= $game.own_board_view $game.player_1 %></pre>
+<pre><%= $game.own_board_view session['player'] %></pre>
 
 <form action="/placed_ship" method="post">
   <input type="text" name="Coordinates">
