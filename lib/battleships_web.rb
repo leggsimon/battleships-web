@@ -5,6 +5,8 @@ require_relative 'ship'
 class BattleshipsWeb < Sinatra::Base
   enable :sessions
 
+  PLAYERS = ['player1', 'player2']
+
   get '/' do
     erb :index
   end
@@ -19,12 +21,8 @@ class BattleshipsWeb < Sinatra::Base
     if params[:name] != ''
       @player_name = params[:name]
       session['player_name'] = @player_name
-      if !$game
-        $game = Game.new Player, Board
-        session['player'] = :player_1
-      else
-        session['player'] = :player_2
-      end
+      $game ||= Game.new Player, Board
+      assign_player unless PLAYERS.empty?
       erb :welcome
     else
       redirect '/name'
@@ -41,10 +39,10 @@ class BattleshipsWeb < Sinatra::Base
 
   post '/shoot' do
     @fire_coordinate = params[:fire_coordinate]
-    if p session['player'] == :player_1
-      p @ship_state = $game.player_1.shoot(@fire_coordinate.to_sym)
+    if session[:player] == 'player1'
+      @ship_state = $game.player_1.shoot(@fire_coordinate.to_sym)
     else
-      p @ship_state = $game.player_2.shoot(@fire_coordinate.to_sym)
+      @ship_state = $game.player_2.shoot(@fire_coordinate.to_sym)
     end
 
     erb :shoot
@@ -54,7 +52,7 @@ class BattleshipsWeb < Sinatra::Base
     @coordinates = params[:Coordinates]
     @shiptype    = params[:shipTypes]
     @orientation = params[:orientation]
-    if  p session['player'] == :player_1
+    if  session[:player] == 'player1'
       $game.player_1.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
     else
       $game.player_2.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
@@ -62,6 +60,13 @@ class BattleshipsWeb < Sinatra::Base
     erb :game
   end
 
+  helpers do
+
+    def assign_player
+      session[:player] = PLAYERS.pop
+    end
+
+  end
 
   # start the server if ruby file executed directly
   run! if app_file == $0

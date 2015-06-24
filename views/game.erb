@@ -1,4 +1,4 @@
-<% if session['player'] == :player_1 %>
+<% if session[:player] == 'player1' %>
   <pre><%= $game.own_board_view $game.player_1 %></pre>
 <% else %>
   <pre><%= $game.own_board_view $game.player_2 %></pre>
