@@ -1,4 +1,8 @@
-<pre><%= $game.own_board_view session['player'] %></pre>
+<% if session['player'] == :player_1 %>
+  <pre><%= $game.own_board_view $game.player_1 %></pre>
+<% else %>
+  <pre><%= $game.own_board_view $game.player_2 %></pre>
+<% end %>
 
 <form action="/placed_ship" method="post">
   <input type="text" name="Coordinates">
@@ -14,5 +18,8 @@
     <option value="horizontally">Horizontally</option>
   </select>
   <input type="submit" value="Place Ship">
+</form>
 
+<form action='/prepare_to_shoot'>
+  <input type="submit" value="Shoot Ship">
 </form>

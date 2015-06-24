@@ -21,9 +21,9 @@ class BattleshipsWeb < Sinatra::Base
       session['player_name'] = @player_name
       if !$game
         $game = Game.new Player, Board
-        session['player'] = $game.player_1
+        session['player'] = :player_1
       else
-        session['player'] = $game.player_2
+        session['player'] = :player_2
       end
       erb :welcome
     else
@@ -35,12 +35,30 @@ class BattleshipsWeb < Sinatra::Base
     erb :game
   end
 
+  get '/prepare_to_shoot' do
+    erb :shoot
+  end
+
+  post '/shoot' do
+    @fire_coordinate = params[:fire_coordinate]
+    if p session['player'] == :player_1
+      p @ship_state = $game.player_1.shoot(@fire_coordinate.to_sym)
+    else
+      p @ship_state = $game.player_2.shoot(@fire_coordinate.to_sym)
+    end
+
+    erb :shoot
+  end
+
   post '/placed_ship' do
     @coordinates = params[:Coordinates]
     @shiptype    = params[:shipTypes]
     @orientation = params[:orientation]
-    session['player'].place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
-
+    if  p session['player'] == :player_1
+      $game.player_1.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
+    else
+      $game.player_2.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
+    end
     erb :game
   end
 

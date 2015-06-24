@@ -21,14 +21,12 @@ feature 'Starting a new game' do
   end
 
   scenario 'Displays board when you start a game' do
-    go_to_welcome_page
-    click_button("Start Game")
+    start_new_game
     expect(page).to have_content('ABCDEFGHIJ')
   end
 
   scenario 'Can place a ship' do
-    go_to_welcome_page
-    click_button("Start Game")
+    start_new_game
     fill_in('Coordinates', with: 'C3')
     select "Destroyer", from: "shipTypes"
     select "Vertically", from: "orientation"
@@ -36,10 +34,17 @@ feature 'Starting a new game' do
     expect(page).to have_content("ABCDEFGHIJ ------------ 1| |1 2| |2 3| D |3 4| D |4 5| |5 6| |6 7| |7 8| |8 9| |9 10| |10 ------------ ABCDEFGHIJ")
   end
 
-  def go_to_welcome_page
+  scenario 'Can shoot a location' do
+    start_new_game
+    click_button('Shoot Ship')
+    expect(page).to have_content 'Enter Fire Coordinates'
+  end
+
+  def start_new_game
     visit '/name'
     fill_in('name', with: 'Bob')
     click_button('Submit')
+    click_button("Start Game")
   end
 
 end
