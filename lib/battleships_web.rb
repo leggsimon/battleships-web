@@ -24,6 +24,7 @@ class BattleshipsWeb < Sinatra::Base
       $game ||= Game.new Player, Board
       assign_player unless PLAYERS.empty?
       erb :welcome
+
     else
       redirect '/name'
     end
@@ -44,8 +45,11 @@ class BattleshipsWeb < Sinatra::Base
     else
       @ship_state = $game.player_2.shoot(@fire_coordinate.to_sym)
     end
-
-    erb :shoot
+    if $game.has_winner?
+      erb :winner
+    else
+      erb :shoot
+    end
   end
 
   post '/placed_ship' do
@@ -61,6 +65,11 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   helpers do
+
+    def winner
+      return 'Player 1 wins!' if $game.player_1.winner?
+      return 'Player 2 wins!' if $game.player_2.winner?
+    end
 
     def assign_player
       session[:player] = PLAYERS.pop
