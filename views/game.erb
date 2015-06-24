@@ -1,0 +1,12 @@
+<pre><%= $game.own_board_view $game.player_1 %></pre>
+
+<form action="/placed_ship" method="post">
+  <input type="text" name="Coordinates">
+  <select name="shipTypes">
+    <option value="destroyer">Destroyer</option>
+  </select>
+  <select name="orientation">
+    <option value="vertically">Vertically</option>
+  </select>
+  <input type="submit" value="Place Ship">
+</form>
