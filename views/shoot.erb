@@ -1,3 +1,9 @@
+<% if session[:player] == 'player1' %>
+  <pre><%= $game.opponent_board_view $game.player_1 %></pre>
+<% else %>
+  <pre><%= $game.o_board_view $game.player_2 %></pre>
+<% end %>
+
 Enter Fire Coordinates
 </br>
 <%= @ship_state %>
