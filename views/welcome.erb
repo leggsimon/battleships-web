@@ -1,4 +1,11 @@
 Welcome <%= @player_name %>
-  <form action="/current_game">
-    <input type="submit" value="Start Game">
-  </form>
+</br>
+<% if session[:player] == 'player1' %>
+  You are player 1
+<% else %>
+  You are player 2
+<% end %>
+
+<form action="/current_game">
+  <input type="submit" value="Start Game">
+</form>

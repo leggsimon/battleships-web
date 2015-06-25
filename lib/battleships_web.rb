@@ -5,7 +5,7 @@ require_relative 'ship'
 class BattleshipsWeb < Sinatra::Base
   enable :sessions
 
-  PLAYERS = ['player1', 'player2']
+  PLAYERS = ['player2', 'player1']
 
   get '/' do
     erb :index
