@@ -64,17 +64,24 @@ class BattleshipsWeb < Sinatra::Base
     @coordinates = params[:Coordinates]
     @shiptype    = params[:shipTypes]
     @orientation = params[:orientation]
+    @available_ships = {'destroyer' => Ship.destroyer,
+                        'battleship' => Ship.battleship,
+                        'aircraft_carrier' => Ship.aircraft_carrier,
+                        'submarine' => Ship.submarine,
+                        'cruiser' => Ship.cruiser}
+
     begin
       if  session[:player] == 'player1'
-        $game.player_1.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
+        $game.player_1.place_ship @available_ships.delete(@shiptype), @coordinates.to_sym, @orientation.to_sym
       else
-        $game.player_2.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
+        $game.player_2.place_ship @available_ships.delete(@shiptype), @coordinates.to_sym, @orientation.to_sym
       end
     rescue
 
     end
     erb :game
   end
+
 
   helpers do
 

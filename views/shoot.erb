@@ -1,7 +1,7 @@
 <% if session[:player] == 'player1' %>
   <pre><%= $game.opponent_board_view $game.player_1 %></pre>
 <% else %>
-  <pre><%= $game.o_board_view $game.player_2 %></pre>
+  <pre><%= $game.opponent_board_view $game.player_2 %></pre>
 <% end %>
 
 Enter Fire Coordinates
@@ -11,3 +11,9 @@ Enter Fire Coordinates
   <input type="text" name="fire_coordinate">
   <input type="submit" value="Fire!">
 </form>
+
+<% if session[:player] == 'player1' %>
+  <pre><%= $game.own_board_view $game.player_1 %></pre>
+<% else %>
+  <pre><%= $game.own_board_view $game.player_2 %></pre>
+<% end %>

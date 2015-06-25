@@ -1,3 +1,5 @@
+<% require './lib/ship.rb' %>
+
 <% if session[:player] == 'player1' %>
   <pre><%= $game.own_board_view $game.player_1 %></pre>
 <% else %>
@@ -7,15 +9,19 @@
 <form action="/placed_ship" method="post">
   <input type="text" name="Coordinates">
   <select name="shipTypes">
-    <option value="aircraft_carrier">Aircraft Carrier</option>
-    <option value="battleship">Battleship</option>
-    <option value="cruiser">Cruiser</option>
-    <option value="destroyer">Destroyer</option>
-    <option value="submarine">Submarine</option>
+    <% Ships.sizes.each_key do |ship| %>
+      <% unless $game.board.ships.include?(ship)
+        <option value="<%= ship %>">"<%= ship %>"</option>
+      <% end %>
+    <% end %>
+
+
+
+
   </select>
   <select name="orientation">
-    <option value="vertically">Vertically</option>
     <option value="horizontally">Horizontally</option>
+    <option value="vertically">Vertically</option>
   </select>
   <input type="submit" value="Place Ship">
 </form>
