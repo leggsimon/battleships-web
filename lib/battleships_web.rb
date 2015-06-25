@@ -40,11 +40,19 @@ class BattleshipsWeb < Sinatra::Base
 
   post '/shoot' do
     @fire_coordinate = params[:fire_coordinate]
-    if session[:player] == 'player1'
-      @ship_state = $game.player_1.shoot(@fire_coordinate.to_sym)
-    else
-      @ship_state = $game.player_2.shoot(@fire_coordinate.to_sym)
+
+    begin
+      if session[:player] == 'player1'
+        @ship_state = $game.player_1.shoot(@fire_coordinate.to_sym)
+      else
+        @ship_state = $game.player_2.shoot(@fire_coordinate.to_sym)
+      end
+    rescue
+        @ship_state = 'Cannot shoot Coordinate more than once'
     end
+
+
+
     if $game.has_winner?
       erb :winner
     else
@@ -56,10 +64,14 @@ class BattleshipsWeb < Sinatra::Base
     @coordinates = params[:Coordinates]
     @shiptype    = params[:shipTypes]
     @orientation = params[:orientation]
-    if  session[:player] == 'player1'
-      $game.player_1.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
-    else
-      $game.player_2.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
+    begin
+      if  session[:player] == 'player1'
+        $game.player_1.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
+      else
+        $game.player_2.place_ship Ship::SHIPS[@shiptype], @coordinates.to_sym, @orientation.to_sym
+      end
+    rescue
+
     end
     erb :game
   end
